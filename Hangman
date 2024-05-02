@@ -1,1 +1,187 @@
-### Hangman
+### Hangman Code ###
+
+import pygame
+import random
+import sys
+
+# Initialize Pygame
+pygame.init()
+
+# Set up display
+WIDTH, HEIGHT = 800, 600
+win = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+pygame.display.set_caption("Hangman Game!")
+
+# Fonts and Colors
+LETTER_FONT = pygame.font.SysFont('comicsans', 30)
+WORD_FONT = pygame.font.SysFont('comicsans', 60)
+TITLE_FONT = pygame.font.SysFont('comicsans', 70)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+
+# Game variables
+themes = {
+    "Science": ["GRAVITY", "ATOM", "ENERGY", "QUANTUM", "NEURON"],
+    "Sports": ["FOOTBALL", "BASKETBALL", "CRICKET", "TENNIS", "BASEBALL"],
+    "Geography": ["MOUNTAIN", "RIVER", "COUNTRY", "CITY", "OCEAN"],
+    "Animals": ["ELEPHANT", "GIRAFFE", "RHINOCEROS", "KANGAROO", "TIGER"]
+}
+words = []
+word = ''
+guessed = {}
+hangman_status = 0
+
+# Keyboard layout (QWERTZ)
+keys = [
+    "QWERTZUIOPÜ",
+    "ASDFGHJKLÖÄ",
+    "YXCVBNM"
+]
+key_positions = []
+
+def init_keys():
+    global key_positions
+    key_positions.clear()
+    key_width = 40
+    key_height = 40
+    key_spacing = 10
+    starting_y = 400
+    for index, row in enumerate(keys):
+        total_row_width = len(row) * (key_width + key_spacing) - key_spacing
+        starting_x = (WIDTH - total_row_width) // 2
+        for i, letter in enumerate(row):
+            x = starting_x + i * (key_width + key_spacing)
+            y = starting_y + index * (key_height + 10)
+            key_positions.append((letter, x, y, key_width, key_height, WHITE))
+
+def draw_keys():
+    for letter, x, y, width, height, color in key_positions:
+        pygame.draw.rect(win, color, (x, y, width, height))
+        text = LETTER_FONT.render(letter, True, BLACK)
+        win.blit(text, (x + (width - text.get_width()) // 2, y + (height - text.get_height()) // 2))
+
+def draw_hangman():
+    stages = [
+        lambda: pygame.draw.circle(win, WHITE, (650, 150), 30, 3),  # Head
+        lambda: pygame.draw.line(win, WHITE, (650, 180), (650, 250), 3),  # Body
+        lambda: pygame.draw.line(win, WHITE, (650, 200), (600, 230), 3),  # Left Arm
+        lambda: pygame.draw.line(win, WHITE, (650, 200), (700, 230), 3),  # Right Arm
+        lambda: pygame.draw.line(win, WHITE, (650, 250), (600, 300), 3),  # Left Leg
+        lambda: pygame.draw.line(win, WHITE, (650, 250), (700, 300), 3)  # Right Leg
+    ]
+    for i in range(hangman_status):
+        stages[i]()
+
+def update_keys(guess, correct):
+    for i, (letter, x, y, width, height, color) in enumerate(key_positions):
+        if letter == guess:
+            key_positions[i] = (letter, x, y, width, height, GREEN if correct else RED)
+
+def draw(current_guess):
+    win.fill(BLACK)
+    text = TITLE_FONT.render("HANGMAN", 1, WHITE)
+    win.blit(text, (WIDTH / 2 - text.get_width() / 2, 20))
+    display_word = " ".join([letter if letter in guessed else '_' for letter in word])
+    text = WORD_FONT.render(display_word, 1, WHITE)
+    win.blit(text, (WIDTH / 2 - text.get_width() / 2, 200))
+    draw_keys()
+    draw_hangman()
+    pygame.display.update()
+
+def message_display(message):
+    win.fill(BLACK)  # Clear screen before displaying the message
+    text = WORD_FONT.render(message, 1, WHITE)
+    win.blit(text, (WIDTH / 2 - text.get_width() / 2, HEIGHT / 2 - text.get_height() / 2))
+    pygame.display.update()
+    pygame.time.delay(2000)
+
+def end_game_message(message):
+    message_display(message)
+    message_display("Press R to restart or Q to quit")
+    wait_for_input()
+
+def wait_for_input():
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    main()
+                elif event.key == pygame.K_q:
+                    pygame.quit()
+                    sys.exit()
+
+def draw_theme_buttons():
+    global theme_buttons
+    theme_buttons = [
+        ("Science", 150, 250, 200, 50, WHITE),
+        ("Sports", 450, 250, 200, 50, WHITE),
+        ("Geography", 150, 350, 200, 50, WHITE),
+        ("Animals", 450, 350, 200, 50, WHITE)
+    ]
+    for theme, x, y, width, height, color in theme_buttons:
+        pygame.draw.rect(win, color, (x, y, width, height))
+        text = LETTER_FONT.render(theme, True, BLACK)
+        win.blit(text, (x + (width - text.get_width()) // 2, y + (height - text.get_height()) // 2))
+
+def theme_selection():
+    win.fill(BLACK)
+    text = TITLE_FONT.render("Please select theme for your words", True, WHITE)
+    win.blit(text, (WIDTH // 2 - text.get_width() // 2, 150))
+    draw_theme_buttons()
+    pygame.display.update()
+    choosing = True
+    while choosing:
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos
+                for theme, tx, ty, twidth, theight, _ in theme_buttons:
+                    if tx <= x <= tx + twidth and ty <= y <= ty + theight:
+                        return theme
+            elif event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+def main():
+    global words, word, guessed, hangman_status
+    selected_theme = theme_selection()
+    words = themes[selected_theme]
+    word = random.choice(words).upper()
+    guessed = {}
+    hangman_status = 0
+    init_keys()
+    run = True
+    clock = pygame.time.Clock()
+
+    while run:
+        clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos
+                for letter, kx, ky, kwidth, kheight, kcolor in key_positions:
+                    if kx <= x <= kx + kwidth and ky <= y <= ky + kheight:
+                        if letter not in guessed:
+                            guessed[letter] = letter in word
+                            update_keys(letter, guessed[letter])
+                            if not guessed[letter]:
+                                hangman_status += 1
+                            if hangman_status == 6:
+                                end_game_message(f"You LOST! Word was: {word}")
+                                run = False
+                            elif all(letter in guessed for letter in word):
+                                end_game_message("You WON! Congrats!")
+                                run = False
+                            break
+
+        if run:
+            draw("")
+
+if __name__ == "__main__":
+    main()
