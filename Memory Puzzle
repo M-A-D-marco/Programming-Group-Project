@@ -33,14 +33,20 @@ HIGHLIGHTCOLOR = BLUE
 
 # Themes
 themes = {
-    'default': {'colors': (RED, GREEN, BLUE, YELLOW), 'letters': 'AEFGHILP'},
-    'animals': {'colors': (RED, GREEN, BLUE, YELLOW), 'letters': 'CATTIGDOG'},
-    'space': {'colors': (RED, GREEN, BLUE, YELLOW), 'letters': 'STARMOON'}
+    'default': {'colors': (RED, GREEN, BLUE, YELLOW), 'letters': 'AEFGHILP', 'bonusWord': 'APPLE'},
+    'animals': {'colors': (RED, GREEN, BLUE, YELLOW), 'letters': 'CATTIGDOG', 'bonusWord': 'CAT'},
+    'space': {'colors': (RED, GREEN, BLUE, YELLOW), 'letters': 'STARMOON', 'bonusWord': 'DOG'}
 }
 
+def selectTheme(theme):
+    global ALLCOLORS, ALLLETTERS, bonusWord
+    ALLCOLORS = themes[theme]['colors']
+    ALLLETTERS = themes[theme]['letters']
+    bonusWord = themes[theme]['bonusWord']
+
+# Initialize the theme
 currentTheme = 'default'
-ALLCOLORS = themes[currentTheme]['colors']
-ALLLETTERS = themes[currentTheme]['letters']
+selectTheme(currentTheme)
 assert len(ALLCOLORS) * len(ALLLETTERS) * 2 >= BOARDWIDTH * BOARDHEIGHT, "Board is too big for the number of shapes/colors defined."
 
 # Time settings
@@ -201,6 +207,9 @@ def main():
     mousey = 0
     pygame.display.set_caption('Memory Game')
 
+    # Allow the player to select a theme at the beginning of the game
+    selectThemeMenu()
+
     mainBoard = getRandomizedBoard()
     revealedBoxes = generateRevealedBoxesData(False)
 
@@ -253,7 +262,7 @@ def main():
                         revealedBoxes[firstSelection[0]][firstSelection[1]] = False
                         revealedBoxes[boxx][boxy] = False
                     else:
-                        if checkWord(mainBoard, revealedBoxes, 'APPLE'):
+                        if checkWord(mainBoard, revealedBoxes, bonusWord):
                             startTime += bonusTime
 
                         if hasWon(revealedBoxes):
@@ -269,6 +278,38 @@ def main():
 
         pygame.display.update()
         FPSCLOCK.tick(FPS)
+
+def selectThemeMenu():
+    global currentTheme
+    while True:
+        DISPLAYSURF.fill(BGCOLOR)
+        font = pygame.font.Font(None, 36)
+        text = font.render('Select Theme:', True, WHITE)
+        textRect = text.get_rect()
+        textRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 4)
+        DISPLAYSURF.blit(text, textRect)
+
+        themeOptions = list(themes.keys())
+        for i, theme in enumerate(themeOptions):
+            themeText = font.render(theme.capitalize(), True, WHITE)
+            themeRect = themeText.get_rect()
+            themeRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 2 + i * 40)
+            DISPLAYSURF.blit(themeText, themeRect)
+
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
+                pygame.quit()
+                sys.exit()
+            elif event.type == MOUSEBUTTONUP:
+                mousex, mousey = event.pos
+                for i, theme in enumerate(themeOptions):
+                    themeRect = pygame.Rect(WINDOWWIDTH // 2 - 50, WINDOWHEIGHT // 2 + i * 40 - 20, 100, 40)
+                    if themeRect.collidepoint(mousex, mousey):
+                        currentTheme = theme
+                        selectTheme(theme)
+                        return
 
 if __name__ == '__main__':
     main()
