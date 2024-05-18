@@ -1,4 +1,4 @@
-### Hangman Code ###
+# Hangman
 
 import pygame
 import random
