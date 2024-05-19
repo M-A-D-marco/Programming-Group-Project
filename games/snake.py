@@ -3,7 +3,7 @@ import pygame
 import random
 
 # Set up the dimensions of the game window
-WINDOW_WIDTH, WINDOW_HEIGHT = 720, 480
+WINDOW_WIDTH, WINDOW_HEIGHT = 800, 600
 INITIAL_SNAKE_SPEED = 10  # Initial speed of the snake
 BLOCK_SIZE = 10  # Size of each block of snake and fruit
 
@@ -167,26 +167,19 @@ def game_loop():
             pygame.display.update()
             clock.tick(speed)
         else:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_r:
-                        return True  # Return True to indicate a restart
-                    elif event.key == pygame.K_q:
-                        return False  # Return False to indicate quitting
+            pygame.time.wait(1500)
 
             game_window.fill(COLORS['black'])
             font_big = pygame.font.SysFont('times new roman', 36)
             game_over_surf = font_big.render('Game Over', True, COLORS['red'])
-            restart_surf = font_big.render('Press R to Restart or Q to Quit', True, COLORS['white'])
             score_surf = font_big.render(f'Final Score: {score}', True, COLORS['yellow'])
 
             game_window.blit(game_over_surf, (WINDOW_WIDTH / 2 - game_over_surf.get_width() / 2, WINDOW_HEIGHT / 2 - game_over_surf.get_height() / 2 - 20))
             game_window.blit(score_surf, (WINDOW_WIDTH / 2 - score_surf.get_width() / 2, WINDOW_HEIGHT / 2 + 20))
-            game_window.blit(restart_surf, (WINDOW_WIDTH / 2 - restart_surf.get_width() / 2, WINDOW_HEIGHT / 2 + 60))
 
             pygame.display.update()
+            pygame.time.wait(5000)
+            running = False
 
 def main():
     """Main function to handle game restarts."""
@@ -194,7 +187,12 @@ def main():
         if not game_loop():
             break  # Exit the loop if game_loop returns False (quit)
 
+# Define run_game_snake
+def run_game_snake():
+    print("Starting Snake Game...")
+    main()  # Start the Game
+
+
 if __name__ == "__main__":
-    main()
-    pygame.quit()
+    run_game_snake()
 

@@ -5,8 +5,8 @@ import sys
 from pygame.locals import *
 
 FPS = 30
-WINDOWWIDTH = 640
-WINDOWHEIGHT = 480
+WINDOWWIDTH = 800
+WINDOWHEIGHT = 600
 REVEALSPEED = 8
 BOXSIZE = 40
 GAPSIZE = 10
@@ -111,7 +111,7 @@ def gameOverAnimation():
     textRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 2)
     DISPLAYSURF.blit(text, textRect)
     pygame.display.update()
-    pygame.time.wait(2000)
+    display.fill(COLORS["black"])  # Clear the screen
 
 def generateRevealedBoxesData(val):
     return [[val] * BOARDHEIGHT for _ in range(BOARDWIDTH)]
@@ -227,7 +227,6 @@ def main():
 
         if timeRemaining <= 0:
             gameOverAnimation()
-            main()
 
         mouseClicked = False
         DISPLAYSURF.fill(BGCOLOR)
@@ -312,5 +311,10 @@ def selectThemeMenu():
                         selectTheme(theme)
                         return
 
+# Define run_game_memory
+def run_game_memory():
+    print("Starting Memory Game...")
+    main()  # Start the Game
+
 if __name__ == '__main__':
-    main()
+    run_game_memory()
