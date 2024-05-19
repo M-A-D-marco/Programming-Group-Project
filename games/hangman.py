@@ -9,7 +9,7 @@ pygame.init()
 
 # Set up display
 WIDTH, HEIGHT = 800, 600
-win = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+win = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Hangman Game!")
 
 # Fonts and Colors
@@ -99,21 +99,6 @@ def message_display(message):
 
 def end_game_message(message):
     message_display(message)
-    message_display("Press R to restart or Q to quit")
-    wait_for_input()
-
-def wait_for_input():
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
-                    main()
-                elif event.key == pygame.K_q:
-                    pygame.quit()
-                    sys.exit()
 
 def draw_theme_buttons():
     global theme_buttons
@@ -183,5 +168,10 @@ def main():
         if run:
             draw("")
 
+# Define run_game_hangman
+def run_game_hangman():
+    print("Starting Hangman Game...")
+    main()  # Start the Game
+
 if __name__ == "__main__":
-    main()
+    run_game_hangman()
