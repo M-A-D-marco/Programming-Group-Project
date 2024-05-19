@@ -167,7 +167,7 @@ def game_loop():
             pygame.display.update()
             clock.tick(speed)
         else:
-            pygame.time.wait(1500)
+            pygame.time.wait(1000)
 
             game_window.fill(COLORS['black'])
             font_big = pygame.font.SysFont('times new roman', 36)
@@ -178,19 +178,15 @@ def game_loop():
             game_window.blit(score_surf, (WINDOW_WIDTH / 2 - score_surf.get_width() / 2, WINDOW_HEIGHT / 2 + 20))
 
             pygame.display.update()
-            pygame.time.wait(5000)
+            pygame.time.wait(3000)
             running = False
 
-def main():
-    """Main function to handle game restarts."""
-    while True:
-        if not game_loop():
-            break  # Exit the loop if game_loop returns False (quit)
+
 
 # Define run_game_snake
 def run_game_snake():
     print("Starting Snake Game...")
-    main()  # Start the Game
+    game_loop()  # Start the Game
 
 
 if __name__ == "__main__":
