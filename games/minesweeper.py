@@ -23,7 +23,7 @@ WINDOW_WIDTH, WINDOW_HEIGHT = 800, 600
 # Create a surface on screen that has the size of WINDOW_WIDTH x WINDOW_HEIGHT
 game_window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 # Create the font for text, using Arial and size 36
-font = pygame.font.SysFont('arial', 36)
+font = pygame.font.SysFont('times new roman', 36)
 # Create an object to help track time
 clock = pygame.time.Clock()
 
@@ -92,7 +92,7 @@ class Cell:
                 pygame.draw.rect(win, COLORS["grey"], rect)
                 if self.adjacent_mines > 0:
                     # Show number of adjacent mines
-                    font = pygame.font.SysFont('arial', 35)
+                    font = pygame.font.SysFont('times new roman', 35)
                     text = font.render(str(self.adjacent_mines), True, COLORS["black"])
                     text_rect = text.get_rect(center=rect.center)
                     win.blit(text, text_rect)
@@ -101,7 +101,7 @@ class Cell:
             pygame.draw.rect(win, COLORS["dark_grey"], rect)
             if self.flagged:
                 # Show flag on flagged cells
-                font = pygame.font.SysFont('arial', 35)
+                font = pygame.font.SysFont('times new roman', 35)
                 text = font.render('F', True, COLORS["green"])
                 text_rect = text.get_rect(center=rect.center)
                 win.blit(text, text_rect)
@@ -129,8 +129,8 @@ def start_game_menu():
     game_window.fill(COLORS['dark_grey'])
 
     # Setup fonts for text display on the main menu
-    title_font = pygame.font.SysFont('arial', 48)  # main title
-    message_font = pygame.font.SysFont('arial', 36)  # sub-message
+    title_font = pygame.font.SysFont('times new roman', 48)  # main title
+    message_font = pygame.font.SysFont('times new roman', 36)  # sub-message
 
     # Render the title and instruction text with anti-aliasing enabled
     title_text = title_font.render('Arcade Games Collection', True, COLORS['green'])  # Title in green

@@ -23,7 +23,7 @@ WINDOW_WIDTH, WINDOW_HEIGHT = 800, 600
 # Create the game window with predefined dimensions
 game_window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 # Create the font for text, using Arial and size 36
-font = pygame.font.SysFont('arial', 36)
+font = pygame.font.SysFont('times new roman', 36)
 # Initialize a clock for managing frame rate
 clock = pygame.time.Clock()
 
@@ -89,8 +89,8 @@ def main_menu():
     game_window.fill(COLORS['dark_grey'])
 
     # Setup fonts for text display on the main menu
-    title_font = pygame.font.SysFont('arial', 48)  # main title
-    message_font = pygame.font.SysFont('arial', 36)  # sub-messages or instructions
+    title_font = pygame.font.SysFont('times new roman', 48)  # main title
+    message_font = pygame.font.SysFont('times new roman', 36)  # sub-messages or instructions
 
     # Render the title and instruction text with anti-aliasing enabled
     title_text = title_font.render('Arcade Games Collection', True, COLORS['green'])  # Title in green
@@ -163,8 +163,8 @@ def game_over():
     game_window.fill(COLORS['dark_grey'])
 
     # Set up title and message
-    title_font = pygame.font.SysFont('arial', 48)  # main title
-    message_font = pygame.font.SysFont('arial', 36)  # secondary messages
+    title_font = pygame.font.SysFont('times new roman', 48)  # main title
+    message_font = pygame.font.SysFont('times new roman', 36)  # secondary messages
 
     # Render text with anti-aliasing for smoother text
     title_text = title_font.render('Arcade Games Collection', True, COLORS['green'])

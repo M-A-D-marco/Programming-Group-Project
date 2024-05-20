@@ -85,7 +85,7 @@ def getLetterAndColor(board, boxx, boxy):
 def drawIcon(letter, color, boxx, boxy):
     half = BOXSIZE // 2
     left, top = leftTopCoordsOfBox(boxx, boxy)
-    font = pygame.font.Font('freesansbold.ttf', 20)
+    font = pygame.font.Font('times new roman', 20)
     text = font.render(letter, True, color, BGCOLOR)
     textRect = text.get_rect()
     textRect.center = (left + half, top + half)
@@ -110,8 +110,8 @@ def gameOverAnimation():
     textRect = text.get_rect()
     textRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 2)
     DISPLAYSURF.blit(text, textRect)
-    pygame.display.update()
-    display.fill(COLORS["black"])  # Clear the screen
+    pygame.DISPLAYSURF.update()
+    DISPLAYSURF.fill(BGCOLOR)  # Clear the screen
 
 def generateRevealedBoxesData(val):
     return [[val] * BOARDHEIGHT for _ in range(BOARDWIDTH)]

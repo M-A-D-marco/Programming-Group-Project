@@ -13,9 +13,9 @@ win = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Hangman Game!")
 
 # Fonts and Colors
-LETTER_FONT = pygame.font.SysFont('comicsans', 30)
-WORD_FONT = pygame.font.SysFont('comicsans', 60)
-TITLE_FONT = pygame.font.SysFont('comicsans', 70)
+LETTER_FONT = pygame.font.SysFont('times new roman', 30)
+WORD_FONT = pygame.font.SysFont('times new roman', 60)
+TITLE_FONT = pygame.font.SysFont('times new roman', 70)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
