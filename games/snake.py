@@ -156,6 +156,11 @@ def game_loop():
                snake.body[0].position[1] < 0 or snake.body[0].position[1] >= WINDOW_HEIGHT:
                 game_over = True
 
+              # Check for collisions with obstacles
+            for obstacle in obstacles.obstacles:
+                if snake.check_collision(obstacle):
+                    game_over = True
+
             snake.draw(game_window)
             fruit.draw()
             obstacles.draw()
