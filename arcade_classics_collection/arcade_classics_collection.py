@@ -84,6 +84,9 @@ def main_menu():
     global current_game  # Reference global variable to manage the state of the game currently being played
     current_game = None  # Reset the current game to None
 
+    # Set the title of the window
+    pygame.display.set_caption('Arcade Classics Collection')
+
     # Set the background of the main menu to dark grey
     game_window.fill(COLORS['black'])
 
@@ -160,6 +163,9 @@ def game_over():
 
     # Clear the screen and set background to dark grey
     game_window.fill(COLORS['black'])
+
+    # Set the title of the window
+    pygame.display.set_caption('Game Over')
 
     # Set up title and message
     title_font = pygame.font.SysFont('times new roman', 48)  # main title

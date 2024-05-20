@@ -19,6 +19,7 @@ TITLE_FONT = pygame.font.SysFont('times new roman', 36)
 
 COLORS = {
     'white': (239, 235, 235),   # Define white, light grayish
+    'grey': (116, 128, 129),  # Define slate grey, a grey with a subtle green undertone
     'black': (29, 31, 32),      # Define black, almost black
     'red': (163, 72, 53),       # Define red, dark red
     'green': (143, 188, 143)  # Define light green, a muted sage green
@@ -65,6 +66,14 @@ def draw_keys():
         text = LETTER_FONT.render(letter, True, COLORS['black'])
         win.blit(text, (x + (width - text.get_width()) // 2, y + (height - text.get_height()) // 2))
 
+def drawMainMenuButton(mainMenuButton):
+    pygame.draw.rect(win, COLORS['grey'], mainMenuButton)  # Draw the button
+    buttonFont = pygame.font.Font(None, 20)
+    buttonText = buttonFont.render('Main Menu', True, COLORS['white'])
+    buttonTextRect = buttonText.get_rect()
+    buttonTextRect.center = mainMenuButton.center
+    win.blit(buttonText, buttonTextRect)
+
 def draw_hangman():
     stages = [
         lambda: pygame.draw.circle(win, COLORS['white'], (650, 150), 30, 3),  # Head
@@ -89,8 +98,10 @@ def draw(current_guess):
     display_word = " ".join([letter if letter in guessed else '_' for letter in word])
     text = WORD_FONT.render(display_word, 1, COLORS['white'])
     win.blit(text, (WIDTH / 2 - text.get_width() / 2, 200))
+    mainMenuButton = pygame.Rect(WIDTH - 140, 10, 130, 30)  # Define button dimensions and position
     draw_keys()
     draw_hangman()
+    drawMainMenuButton(mainMenuButton)
     pygame.display.update()
 
 def message_display(message):
@@ -141,6 +152,7 @@ def main():
     word = random.choice(words).upper()
     guessed = {}
     hangman_status = 0
+    mainMenuButton = pygame.Rect(WIDTH - 140, 10, 130, 30)  # Define button dimensions and position
     init_keys()
     run = True
     clock = pygame.time.Clock()
@@ -167,6 +179,11 @@ def main():
                                 end_game_message("You WON! Congrats!")
                                 run = False
                             break
+                    if mainMenuButton.collidepoint(x, y):
+                        hangman_status == 6
+                        end_game_message(f"You LOST! Word was: {word}")
+                        run = False
+                        break
 
         if run:
             draw("")

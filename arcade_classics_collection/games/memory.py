@@ -218,7 +218,7 @@ def main():
 
     mousex = 0
     mousey = 0
-    pygame.display.set_caption('Memory Game')
+    pygame.display.set_caption('Memory Game!')
 
     # Allow the player to select a theme at the beginning of the game
     selectThemeMenu()
@@ -262,6 +262,7 @@ def main():
                     gameOverAnimationMainMenu()
                     running = False
                     DISPLAYSURF.fill(COLORS["black"])  # Clear the screen
+                    return
 
         boxx, boxy = getBoxAtPixel(mousex, mousey)
         if boxx is not None and boxy is not None:

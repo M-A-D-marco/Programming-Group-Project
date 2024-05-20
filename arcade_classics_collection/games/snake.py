@@ -21,7 +21,6 @@ COLORS = {
 # Initialize pygame modules
 pygame.init()
 game_window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption('Snake Game')  # Window title
 clock = pygame.time.Clock()  # Clock for controlling game frame rate
 
 class GameComponent:
@@ -30,7 +29,7 @@ class GameComponent:
         self.position = position
         self.color = color
 
-    def draw(self, game_window):
+    def draw(self):
         """Draw the component as a rectangle."""
         pygame.draw.rect(game_window, self.color, pygame.Rect(
             self.position[0], self.position[1], BLOCK_SIZE, BLOCK_SIZE))
@@ -72,10 +71,10 @@ class Snake:
         head_x, head_y = self.body[0].position
         return any(head_x == part.position[0] and head_y == part.position[1] for part in self.body[1:])
 
-    def draw(self, game_window):
+    def draw(self):
         """Draw the snake on the game window."""
         for part in self.body:
-            part.draw(game_window)
+            part.draw()
 
 class Fruit:
     """Class to represent the fruit."""
@@ -109,9 +108,10 @@ class Obstacle:
     def draw(self):
         """Draw obstacles on the game window."""
         for obstacle in self.obstacles:
-            obstacle.draw(game_window)
+            obstacle.draw()
 
 def game_loop():
+    pygame.display.set_caption('Snake Game!')  # Window title
     """Control the game's main loop including restarting and quitting."""
     snake = Snake([[100 - i * BLOCK_SIZE, 50] for i in range(4)])
     fruit = Fruit()
@@ -120,8 +120,7 @@ def game_loop():
     level = 1
     speed = INITIAL_SNAKE_SPEED
     game_over = False
-    running = True
-    while running:
+    while True:
         if not game_over:
             game_window.fill(COLORS['black'])
 
@@ -160,7 +159,7 @@ def game_loop():
                 if snake.check_collision(obstacle):
                     game_over = True
 
-            snake.draw(game_window)
+            snake.draw()
             fruit.draw()
             obstacles.draw()
 
@@ -183,7 +182,7 @@ def game_loop():
 
             pygame.display.update()
             pygame.time.wait(3000)
-            running = False
+            break
 # Define run_game_snake
 def run_game_snake():
     print("Starting Snake Game...")
