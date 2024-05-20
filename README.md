@@ -1,11 +1,11 @@
 # Programming-Group-Project
 UniSG Group Project
 Mini Arcade Games Collection
-Overview
+**Overview**
 The Mini Arcade Games Collection is a project that brings together a variety of classic games that many of us enjoyed during our childhood. The collection includes Hangman, Snake, Minesweeper, and Memory Puzzle. These games not only offer nostalgic fun but also provide a simple yet engaging way to practice coding with Pygame, a popular library for creating video games in Python.
-Inspiration
+**Inspiration**
 This project was inspired by the fond memories we have of playing these games during our childhood. Whether it was during recess, after school, or on weekends, these games provided countless hours of entertainment and friendly competition. We wanted to recreate those experiences and bring them to a modern platform where we can relive those moments and share them with others. Our professor suggested that we include a README file to document our project, and we hope it captures the essence of our journey in creating this collection.
-Games Included
+**Games Included**
 1.	Hangman: Guess the word before the hangman is fully drawn. Choose from various themes such as Science, Sports, Geography, and Animals.
 2.	Snake: Control the snake to eat the fruit and grow longer. Avoid colliding with the walls, obstacles, or yourself.
 3.	Minesweeper: Uncover all the cells that don't contain mines. Flag the cells you suspect have mines to avoid losing the game.
@@ -15,10 +15,10 @@ Features
 •	User-friendly interface with simple controls.
 •	Theme selection for Hangman and Memory Puzzle games.
 •	Dynamic difficulty levels for Snake and Minesweeper.
-•	Game over screens with options to restart, quit, or return to the main menu.
+•	Game over screens with options to restart, quit, or return to the main menu. ----MARCO CHANGE
 •	Nostalgic design and gameplay to bring back childhood memories.
 
-How to Run the Project
+**How to Run the Project** ---- MARCO
 1.	Install Python: Make sure you have Python installed on your computer. You can download it from python.org.
 2.	Install Pygame: Install the Pygame library using pip. Open your command prompt or terminal and run:
 Copy code

@@ -223,7 +223,13 @@ def main():
     while True:
         gameTimeElapsed = pygame.time.get_ticks() - startTime
         timeRemaining = gameTimeLimit - gameTimeElapsed if gameTimeElapsed < gameTimeLimit else 0
-
+        if
+            main_menu_btn = Button(WINDOWWIDTH -50,  80, 'Main Menu')
+            themeText = font.render(theme.capitalize(), True, WHITE)
+            themeRect = themeText.get_rect()
+            themeRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 2 + i * 40)
+            DISPLAYSURF.blit(themeText, themeRect)
+            gameOverAnimation()
         if timeRemaining <= 0:
             gameOverAnimation()
 
