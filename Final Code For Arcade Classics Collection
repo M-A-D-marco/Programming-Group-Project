@@ -132,10 +132,10 @@ def wait_for_input():
 def draw_theme_buttons():
     global theme_buttons
     theme_buttons = [
-        ("Science", 150, 250, 200, 50, WHITE),
-        ("Sports", 450, 250, 200, 50, WHITE),
-        ("Geography", 150, 350, 200, 50, WHITE),
-        ("Animals", 450, 350, 200, 50, WHITE)
+        ("Science", 150, 250, 200, 50, GRAY),
+        ("Sports", 450, 250, 200, 50, GRAY),
+        ("Geography", 150, 350, 200, 50, GRAY),
+        ("Animals", 450, 350, 200, 50, GRAY)
     ]
     for theme, x, y, width, height, color in theme_buttons:
         pygame.draw.rect(screen, color, (x, y, width, height))
