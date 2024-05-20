@@ -4,8 +4,8 @@ import sys
 from pygame.locals import *
 
 FPS = 30
-WINDOWWIDTH = 640
-WINDOWHEIGHT = 480
+WINDOWWIDTH = 800
+WINDOWHEIGHT = 600
 REVEALSPEED = 8
 BOXSIZE = 40
 GAPSIZE = 10
@@ -51,7 +51,7 @@ selectTheme(currentTheme)
 assert len(ALLCOLORS) * len(ALLLETTERS) * 2 >= BOARDWIDTH * BOARDHEIGHT, "Board is too big for the number of shapes/colors defined."
 
 # Time settings
-gameTimeLimit = 180000  # 3 minutes in milliseconds
+gameTimeLimit = 18000  # 3 minutes in milliseconds
 bonusTime = 40000  # 40 seconds bonus time
 
 def drawBoard(board, revealed):
@@ -103,9 +103,26 @@ def drawTimer(timeRemaining):
     textRect.topleft = (10, 10)
     DISPLAYSURF.blit(text, textRect)
 
+def drawMainMenuButton(mainMenuButton):
+    pygame.draw.rect(DISPLAYSURF, GRAY, mainMenuButton)  # Draw the button
+    buttonFont = pygame.font.Font(None, 20)
+    buttonText = buttonFont.render('Main Menu', True, WHITE)
+    buttonTextRect = buttonText.get_rect()
+    buttonTextRect.center = mainMenuButton.center
+    DISPLAYSURF.blit(buttonText, buttonTextRect)
+
 def gameOverAnimation():
     font = pygame.font.Font(None, 48)
     text = font.render("Time's up!", True, RED)
+    textRect = text.get_rect()
+    textRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 2)
+    DISPLAYSURF.blit(text, textRect)
+    pygame.display.update()
+    pygame.time.wait(2000)
+
+def gameOverAnimationMainMenu():
+    font = pygame.font.Font(None, 48)
+    text = font.render("Game Over!", True, RED)
     textRect = text.get_rect()
     textRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 2)
     DISPLAYSURF.blit(text, textRect)
@@ -212,6 +229,7 @@ def main():
 
     mainBoard = getRandomizedBoard()
     revealedBoxes = generateRevealedBoxesData(False)
+    mainMenuButton = pygame.Rect(WINDOWWIDTH - 140, 10, 130, 30)  # Define button dimensions and position
 
     firstSelection = None
     DISPLAYSURF.fill(BGCOLOR)
@@ -219,24 +237,21 @@ def main():
 
     startTime = pygame.time.get_ticks()
     timeRemaining = gameTimeLimit
-
-    while True:
+    running = True
+    while running:
         gameTimeElapsed = pygame.time.get_ticks() - startTime
         timeRemaining = gameTimeLimit - gameTimeElapsed if gameTimeElapsed < gameTimeLimit else 0
-        if
-            main_menu_btn = Button(WINDOWWIDTH -50,  80, 'Main Menu')
-            themeText = font.render(theme.capitalize(), True, WHITE)
-            themeRect = themeText.get_rect()
-            themeRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 2 + i * 40)
-            DISPLAYSURF.blit(themeText, themeRect)
-            gameOverAnimation()
+
         if timeRemaining <= 0:
             gameOverAnimation()
+            running = False
+            DISPLAYSURF.fill(COLORS["black"])  # Clear the screen
 
         mouseClicked = False
         DISPLAYSURF.fill(BGCOLOR)
         drawBoard(mainBoard, revealedBoxes)
         drawTimer(timeRemaining)
+        drawMainMenuButton(mainMenuButton)
 
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
@@ -247,6 +262,10 @@ def main():
             elif event.type == MOUSEBUTTONUP:
                 mousex, mousey = event.pos
                 mouseClicked = True
+                if mainMenuButton.collidepoint(mousex, mousey):
+                    gameOverAnimationMainMenu()
+                    running = False
+                    DISPLAYSURF.fill(COLORS["black"])  # Clear the screen
 
         boxx, boxy = getBoxAtPixel(mousex, mousey)
         if boxx is not None and boxy is not None:
