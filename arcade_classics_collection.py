@@ -6,12 +6,11 @@ import importlib
 
 # Define colors used in the game interface, using RGB values
 COLORS = {
-    'white': pygame.Color(239, 235, 235),   # Define white, light grayish
-    'black': pygame.Color(29, 31, 32),      # Define black, almost black
-    'red': pygame.Color(163, 72, 53),       # Define red, dark red
-    'grey': pygame.Color(225, 225, 225),    # Define grey
-    'dark_grey': pygame.Color(42, 44, 51),  # Define dark grey
-    'green': pygame.Color(162, 173, 159)    # Define green, dark green
+    'white': (239, 235, 235),   # Define white, light grayish
+    'grey': (116, 128, 129),  # Define slate grey, a grey with a subtle green undertone
+    'black': (29, 31, 32),      # Define black, almost black
+    'red': (163, 72, 53),       # Define red, dark red
+    'green': (143, 188, 143)  # Define light green, a muted sage green
 }
 
 # Initialize the pygame library
@@ -57,7 +56,7 @@ class Button:
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height), 0)
         # Render the button's text in the center of the button
         text_render = font.render(self.text, True,
-                                  COLORS['black'])  # Render text to a surface with anti-aliasing and black color
+                                  COLORS['white'])  # Render text to a surface with anti-aliasing and black color
         # win.blit: draws the text_render surface onto the game window at the calculated position.
         win.blit(text_render,
                  (self.x + (self.width - text_render.get_width()) // 2,
@@ -86,7 +85,7 @@ def main_menu():
     current_game = None  # Reset the current game to None
 
     # Set the background of the main menu to dark grey
-    game_window.fill(COLORS['dark_grey'])
+    game_window.fill(COLORS['black'])
 
     # Setup fonts for text display on the main menu
     title_font = pygame.font.SysFont('times new roman', 48)  # main title
@@ -160,7 +159,7 @@ def game_over():
     global current_game  # Use the global variable to manage the game state
 
     # Clear the screen and set background to dark grey
-    game_window.fill(COLORS['dark_grey'])
+    game_window.fill(COLORS['black'])
 
     # Set up title and message
     title_font = pygame.font.SysFont('times new roman', 48)  # main title

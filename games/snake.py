@@ -9,19 +9,19 @@ BLOCK_SIZE = 10  # Size of each block of snake and fruit
 
 # Define colors used in the game using RGB values
 COLORS = {
-    "black": pygame.Color(0, 0, 0),
-    "white": pygame.Color(255, 255, 255),
-    "red": pygame.Color(255, 0, 0),
-    "green": pygame.Color(0, 255, 0),
-    "blue": pygame.Color(0, 0, 255),
-    "yellow": pygame.Color(255, 255, 0),
-    "grey": pygame.Color(128, 128, 128),
+    'white': (239, 235, 235),   # Define white, light grayish
+    'grey': (116, 128, 129),  # Define slate grey, a grey with a subtle green undertone
+    'black': (29, 31, 32),      # Define black, almost black
+    'red': (163, 72, 53),       # Define red, dark red
+    'green': (143, 188, 143),  # Define light green, a muted sage green
+    'blue': (60, 120, 215),  # Define blue, a deep but vibrant blue
+    'yellow': (245, 220, 80)  # Define yellow, a muted gold-like yellow
 }
 
 # Initialize pygame modules
 pygame.init()
 game_window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption('Customized Snake Game')  # Window title
+pygame.display.set_caption('Snake Game')  # Window title
 clock = pygame.time.Clock()  # Clock for controlling game frame rate
 
 class GameComponent:
@@ -120,7 +120,6 @@ def game_loop():
     level = 1
     speed = INITIAL_SNAKE_SPEED
     game_over = False
-
     running = True
     while running:
         if not game_over:
@@ -156,7 +155,7 @@ def game_loop():
                snake.body[0].position[1] < 0 or snake.body[0].position[1] >= WINDOW_HEIGHT:
                 game_over = True
 
-              # Check for collisions with obstacles
+            # Check for collisions with obstacles
             for obstacle in obstacles.obstacles:
                 if snake.check_collision(obstacle):
                     game_over = True
@@ -185,9 +184,6 @@ def game_loop():
             pygame.display.update()
             pygame.time.wait(3000)
             running = False
-
-
-
 # Define run_game_snake
 def run_game_snake():
     print("Starting Snake Game...")
@@ -196,4 +192,3 @@ def run_game_snake():
 
 if __name__ == "__main__":
     run_game_snake()
-

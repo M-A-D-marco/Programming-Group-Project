@@ -16,10 +16,13 @@ pygame.display.set_caption("Hangman Game!")
 LETTER_FONT = pygame.font.SysFont('times new roman', 30)
 WORD_FONT = pygame.font.SysFont('times new roman', 36)
 TITLE_FONT = pygame.font.SysFont('times new roman', 36)
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
+
+COLORS = {
+    'white': (239, 235, 235),   # Define white, light grayish
+    'black': (29, 31, 32),      # Define black, almost black
+    'red': (163, 72, 53),       # Define red, dark red
+    'green': (143, 188, 143)  # Define light green, a muted sage green
+}
 
 # Game variables
 themes = {
@@ -54,22 +57,22 @@ def init_keys():
         for i, letter in enumerate(row):
             x = starting_x + i * (key_width + key_spacing)
             y = starting_y + index * (key_height + 10)
-            key_positions.append((letter, x, y, key_width, key_height, WHITE))
+            key_positions.append((letter, x, y, key_width, key_height, COLORS['white']))
 
 def draw_keys():
     for letter, x, y, width, height, color in key_positions:
         pygame.draw.rect(win, color, (x, y, width, height))
-        text = LETTER_FONT.render(letter, True, BLACK)
+        text = LETTER_FONT.render(letter, True, COLORS['black'])
         win.blit(text, (x + (width - text.get_width()) // 2, y + (height - text.get_height()) // 2))
 
 def draw_hangman():
     stages = [
-        lambda: pygame.draw.circle(win, WHITE, (650, 150), 30, 3),  # Head
-        lambda: pygame.draw.line(win, WHITE, (650, 180), (650, 250), 3),  # Body
-        lambda: pygame.draw.line(win, WHITE, (650, 200), (600, 230), 3),  # Left Arm
-        lambda: pygame.draw.line(win, WHITE, (650, 200), (700, 230), 3),  # Right Arm
-        lambda: pygame.draw.line(win, WHITE, (650, 250), (600, 300), 3),  # Left Leg
-        lambda: pygame.draw.line(win, WHITE, (650, 250), (700, 300), 3)  # Right Leg
+        lambda: pygame.draw.circle(win, COLORS['white'], (650, 150), 30, 3),  # Head
+        lambda: pygame.draw.line(win, COLORS['white'], (650, 180), (650, 250), 3),  # Body
+        lambda: pygame.draw.line(win, COLORS['white'], (650, 200), (600, 230), 3),  # Left Arm
+        lambda: pygame.draw.line(win, COLORS['white'], (650, 200), (700, 230), 3),  # Right Arm
+        lambda: pygame.draw.line(win, COLORS['white'], (650, 250), (600, 300), 3),  # Left Leg
+        lambda: pygame.draw.line(win, COLORS['white'], (650, 250), (700, 300), 3)  # Right Leg
     ]
     for i in range(hangman_status):
         stages[i]()
@@ -77,22 +80,22 @@ def draw_hangman():
 def update_keys(guess, correct):
     for i, (letter, x, y, width, height, color) in enumerate(key_positions):
         if letter == guess:
-            key_positions[i] = (letter, x, y, width, height, GREEN if correct else RED)
+            key_positions[i] = (letter, x, y, width, height, COLORS['green'] if correct else COLORS['red'])
 
 def draw(current_guess):
-    win.fill(BLACK)
-    text = TITLE_FONT.render("HANGMAN", 1, WHITE)
+    win.fill(COLORS['black'])
+    text = TITLE_FONT.render("HANGMAN", 1, COLORS['white'])
     win.blit(text, (WIDTH / 2 - text.get_width() / 2, 20))
     display_word = " ".join([letter if letter in guessed else '_' for letter in word])
-    text = WORD_FONT.render(display_word, 1, WHITE)
+    text = WORD_FONT.render(display_word, 1, COLORS['white'])
     win.blit(text, (WIDTH / 2 - text.get_width() / 2, 200))
     draw_keys()
     draw_hangman()
     pygame.display.update()
 
 def message_display(message):
-    win.fill(BLACK)  # Clear screen before displaying the message
-    text = WORD_FONT.render(message, 1, WHITE)
+    win.fill(COLORS['black'])  # Clear screen before displaying the message
+    text = WORD_FONT.render(message, 1, COLORS['white'])
     win.blit(text, (WIDTH / 2 - text.get_width() / 2, HEIGHT / 2 - text.get_height() / 2))
     pygame.display.update()
     pygame.time.delay(2000)
@@ -103,19 +106,19 @@ def end_game_message(message):
 def draw_theme_buttons():
     global theme_buttons
     theme_buttons = [
-        ("Science", 150, 250, 200, 50, WHITE),
-        ("Sports", 450, 250, 200, 50, WHITE),
-        ("Geography", 150, 350, 200, 50, WHITE),
-        ("Animals", 450, 350, 200, 50, WHITE)
+        ("Science", 150, 250, 200, 50, COLORS['white']),
+        ("Sports", 450, 250, 200, 50, COLORS['white']),
+        ("Geography", 150, 350, 200, 50, COLORS['white']),
+        ("Animals", 450, 350, 200, 50, COLORS['white'])
     ]
     for theme, x, y, width, height, color in theme_buttons:
         pygame.draw.rect(win, color, (x, y, width, height))
-        text = LETTER_FONT.render(theme, True, BLACK)
+        text = LETTER_FONT.render(theme, True, COLORS['black'])
         win.blit(text, (x + (width - text.get_width()) // 2, y + (height - text.get_height()) // 2))
 
 def theme_selection():
-    win.fill(BLACK)
-    text = TITLE_FONT.render("Please select theme for your words", True, WHITE)
+    win.fill(COLORS['black'])
+    text = TITLE_FONT.render("Please select theme for your words", True, COLORS['white'])
     win.blit(text, (WIDTH // 2 - text.get_width() // 2, 150))
     draw_theme_buttons()
     pygame.display.update()

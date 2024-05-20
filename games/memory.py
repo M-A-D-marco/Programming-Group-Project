@@ -18,25 +18,21 @@ XMARGIN = int((WINDOWWIDTH - (BOARDWIDTH * (BOXSIZE + GAPSIZE))) / 2)
 YMARGIN = int((WINDOWHEIGHT - (BOARDHEIGHT * (BOXSIZE + GAPSIZE))) / 2)
 
 # Colors
-GRAY = (100, 100, 100)
-NAVYBLUE = (60, 60, 100)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 102, 0)
-BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
-BLACK = (0, 0, 0)
-BGCOLOR = BLACK
-LIGHTBGCOLOR = GRAY
-BOXCOLOR = WHITE
-HIGHLIGHTCOLOR = BLUE
-
+COLORS = {
+    'white': (239, 235, 235),   # Define white, light grayish
+    'grey': (116, 128, 129),  # Define slate grey, a grey with a subtle green undertone
+    'black': (29, 31, 32),      # Define black, almost black
+    'red': (163, 72, 53),       # Define red, dark red
+    'green': (143, 188, 143),  # Define light green, a muted sage green
+    'blue': (60, 120, 215),  # Define blue, a deep but vibrant blue
+    'yellow': (245, 220, 80)  # Define yellow, a muted gold-like yellow
+}
 
 # Themes
 themes = {
-    'default': {'colors': (RED, GREEN, BLUE, YELLOW), 'letters': 'AEFGHILP', 'bonusWord': 'APPLE'},
-    'animals': {'colors': (RED, GREEN, BLUE, YELLOW), 'letters': 'CATTIGDOG', 'bonusWord': 'CAT'},
-    'space': {'colors': (RED, GREEN, BLUE, YELLOW), 'letters': 'STARMOON', 'bonusWord': 'DOG'}
+    'default': {'colors': (COLORS['red'], COLORS['green'], COLORS['blue'], COLORS['yellow']), 'letters': 'AEFGHILP', 'bonusWord': 'APPLE'},
+    'animals': {'colors': (COLORS['red'], COLORS['green'], COLORS['blue'], COLORS['yellow']), 'letters': 'CATTIGDOG', 'bonusWord': 'CAT'},
+    'space': {'colors': (COLORS['red'], COLORS['green'], COLORS['blue'], COLORS['yellow']), 'letters': 'STARMOON', 'bonusWord': 'DOG'}
 }
 
 def selectTheme(theme):
@@ -51,7 +47,7 @@ selectTheme(currentTheme)
 assert len(ALLCOLORS) * len(ALLLETTERS) * 2 >= BOARDWIDTH * BOARDHEIGHT, "Board is too big for the number of shapes/colors defined."
 
 # Time settings
-gameTimeLimit = 18000  # 3 minutes in milliseconds
+gameTimeLimit = 180000  # 3 minutes in milliseconds
 bonusTime = 40000  # 40 seconds bonus time
 
 def drawBoard(board, revealed):
@@ -59,7 +55,7 @@ def drawBoard(board, revealed):
         for boxy in range(BOARDHEIGHT):
             left, top = leftTopCoordsOfBox(boxx, boxy)
             if not revealed[boxx][boxy]:
-                pygame.draw.rect(DISPLAYSURF, BOXCOLOR, (left, top, BOXSIZE, BOXSIZE))
+                pygame.draw.rect(DISPLAYSURF, COLORS['white'], (left, top, BOXSIZE, BOXSIZE))
             else:
                 letter, color = getLetterAndColor(board, boxx, boxy)
                 drawIcon(letter, color, boxx, boxy)
@@ -85,7 +81,7 @@ def drawIcon(letter, color, boxx, boxy):
     half = BOXSIZE // 2
     left, top = leftTopCoordsOfBox(boxx, boxy)
     font = pygame.font.Font('freesansbold.ttf', 20)
-    text = font.render(letter, True, color, BGCOLOR)
+    text = font.render(letter, True, color, COLORS['black'])
     textRect = text.get_rect()
     textRect.center = (left + half, top + half)
     DISPLAYSURF.blit(text, textRect)
@@ -98,33 +94,33 @@ def drawTimer(timeRemaining):
     mins, secs = divmod(timeRemaining // 1000, 60)
     timeText = f'Time remaining: {mins:02}:{secs:02}'
     font = pygame.font.Font(None, 36)
-    text = font.render(timeText, True, WHITE)
+    text = font.render(timeText, True, COLORS['white'])
     textRect = text.get_rect()
     textRect.topleft = (10, 10)
     DISPLAYSURF.blit(text, textRect)
 
 def drawMainMenuButton(mainMenuButton):
-    pygame.draw.rect(DISPLAYSURF, GRAY, mainMenuButton)  # Draw the button
+    pygame.draw.rect(DISPLAYSURF, COLORS['grey'], mainMenuButton)  # Draw the button
     buttonFont = pygame.font.Font(None, 20)
-    buttonText = buttonFont.render('Main Menu', True, WHITE)
+    buttonText = buttonFont.render('Main Menu', True, COLORS['white'])
     buttonTextRect = buttonText.get_rect()
     buttonTextRect.center = mainMenuButton.center
     DISPLAYSURF.blit(buttonText, buttonTextRect)
 
 def gameOverAnimation():
     font = pygame.font.Font(None, 48)
-    text = font.render("Time's up!", True, RED)
+    text = font.render("Time's up!", True, COLORS['red'])
     textRect = text.get_rect()
-    textRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 2)
+    textRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 4)
     DISPLAYSURF.blit(text, textRect)
     pygame.display.update()
     pygame.time.wait(2000)
 
 def gameOverAnimationMainMenu():
     font = pygame.font.Font(None, 48)
-    text = font.render("Game Over!", True, RED)
+    text = font.render("Game Over!", True, COLORS['red'])
     textRect = text.get_rect()
-    textRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 2)
+    textRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 4)
     DISPLAYSURF.blit(text, textRect)
     pygame.display.update()
     pygame.time.wait(2000)
@@ -144,8 +140,8 @@ def startGameAnimation(board):
 
 def gameWonAnimation(board):
     coveredBoxes = generateRevealedBoxesData(True)
-    color1 = LIGHTBGCOLOR
-    color2 = BGCOLOR
+    color1 = COLORS['grey']
+    color2 = COLORS['black']
     for _ in range(13):
         color1, color2 = color2, color1
         DISPLAYSURF.fill(color1)
@@ -157,9 +153,9 @@ def hasWon(revealedBoxes):
     return all(all(row) for row in revealedBoxes)
 
 def celebrationAnimation():
-    colors = [RED, GREEN, BLUE, YELLOW]
+    colors = [COLORS['red'], COLORS['green'], COLORS['blue'], COLORS['yellow']]
     for _ in range(60):
-        DISPLAYSURF.fill(BGCOLOR)
+        DISPLAYSURF.fill(COLORS['black'])
         for _ in range(20):
             pygame.draw.circle(DISPLAYSURF, random.choice(colors), (random.randint(0, WINDOWWIDTH), random.randint(0, WINDOWHEIGHT)), random.randint(10, 40))
         pygame.display.update()
@@ -170,7 +166,7 @@ def splitIntoGroupsOf(groupSize, theList):
 
 def drawHighlightBox(boxx, boxy):
     left, top = leftTopCoordsOfBox(boxx, boxy)
-    pygame.draw.rect(DISPLAYSURF, HIGHLIGHTCOLOR, (left - 5, top - 5, BOXSIZE + 10, BOXSIZE + 10), 4)
+    pygame.draw.rect(DISPLAYSURF, COLORS['blue'], (left - 5, top - 5, BOXSIZE + 10, BOXSIZE + 10), 4)
 
 def leftTopCoordsOfBox(boxx, boxy):
     left = boxx * (BOXSIZE + GAPSIZE) + XMARGIN
@@ -184,11 +180,11 @@ def revealBoxesAnimation(board, boxesToReveal):
 def drawBoxCovers(board, boxes, coverage):
     for box in boxes:
         left, top = leftTopCoordsOfBox(box[0], box[1])
-        pygame.draw.rect(DISPLAYSURF, BGCOLOR, (left, top, BOXSIZE, BOXSIZE))
+        pygame.draw.rect(DISPLAYSURF, COLORS['black'], (left, top, BOXSIZE, BOXSIZE))
         letter, color = getLetterAndColor(board, box[0], box[1])
         drawIcon(letter, color, box[0], box[1])
         if coverage > 0:
-            pygame.draw.rect(DISPLAYSURF, BOXCOLOR, (left, top, coverage, BOXSIZE))
+            pygame.draw.rect(DISPLAYSURF, COLORS['white'], (left, top, coverage, BOXSIZE))
     pygame.display.update()
     FPSCLOCK.tick(FPS)
 
@@ -232,7 +228,7 @@ def main():
     mainMenuButton = pygame.Rect(WINDOWWIDTH - 140, 10, 130, 30)  # Define button dimensions and position
 
     firstSelection = None
-    DISPLAYSURF.fill(BGCOLOR)
+    DISPLAYSURF.fill(COLORS['black'])
     startGameAnimation(mainBoard)
 
     startTime = pygame.time.get_ticks()
@@ -248,7 +244,7 @@ def main():
             DISPLAYSURF.fill(COLORS["black"])  # Clear the screen
 
         mouseClicked = False
-        DISPLAYSURF.fill(BGCOLOR)
+        DISPLAYSURF.fill(COLORS['black'])
         drawBoard(mainBoard, revealedBoxes)
         drawTimer(timeRemaining)
         drawMainMenuButton(mainMenuButton)
@@ -306,16 +302,16 @@ def main():
 def selectThemeMenu():
     global currentTheme
     while True:
-        DISPLAYSURF.fill(BGCOLOR)
+        DISPLAYSURF.fill(COLORS['black'])
         font = pygame.font.Font(None, 36)
-        text = font.render('Select Theme:', True, WHITE)
+        text = font.render('Select Theme:', True, COLORS['white'])
         textRect = text.get_rect()
         textRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 4)
         DISPLAYSURF.blit(text, textRect)
 
         themeOptions = list(themes.keys())
         for i, theme in enumerate(themeOptions):
-            themeText = font.render(theme.capitalize(), True, WHITE)
+            themeText = font.render(theme.capitalize(), True, COLORS['white'])
             themeRect = themeText.get_rect()
             themeRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 2 + i * 40)
             DISPLAYSURF.blit(themeText, themeRect)

@@ -6,12 +6,12 @@ import sys
 
 # Define colors used in the game interface, using RGB values
 COLORS = {
-    'white': pygame.Color(239, 235, 235),   # Define white, light grayish
-    'black': pygame.Color(29, 31, 32),      # Define black, almost black
-    'red': pygame.Color(163, 72, 53),       # Define red, dark red
-    'grey': pygame.Color(225, 225, 225),    # Define grey
-    'dark_grey': pygame.Color(42, 44, 51),  # Define dark grey
-    'green': pygame.Color(162, 173, 159)    # Define green, dark green
+    'white': (239, 235, 235),   # Define white, light grayish
+    'grey': (116, 128, 129),  # Define slate grey, a grey with a subtle green undertone
+    'darkgrey': (42, 44, 51),  # Define dark grey
+    'black': (29, 31, 32),      # Define black, almost black
+    'red': (163, 72, 53),       # Define red, dark red
+    'green': (143, 188, 143)  # Define light green, a muted sage green
 }
 
 # Initialize pygame module
@@ -89,7 +89,7 @@ class Cell:
                 pygame.draw.rect(win, COLORS["red"], rect)
             else:
                 # Draw revealed cell
-                pygame.draw.rect(win, COLORS["grey"], rect)
+                pygame.draw.rect(win, COLORS["white"], rect)
                 if self.adjacent_mines > 0:
                     # Show number of adjacent mines
                     font = pygame.font.SysFont('times new roman', 35)
@@ -98,7 +98,7 @@ class Cell:
                     win.blit(text, text_rect)
         else:
             # Draw unrevealed cell
-            pygame.draw.rect(win, COLORS["dark_grey"], rect)
+            pygame.draw.rect(win, COLORS["darkgrey"], rect)
             if self.flagged:
                 # Show flag on flagged cells
                 font = pygame.font.SysFont('times new roman', 35)
@@ -122,45 +122,6 @@ def create_grid():
                                                if 0 <= x + dx < GRID_SIZE and 0 <= y + dy < GRID_SIZE
                                                and grid[x + dx][y + dy].is_mine)
     return grid
-
-# Define game_loop function
-def start_game_menu():
-    # Set the background of the main menu to dark grey
-    game_window.fill(COLORS['dark_grey'])
-
-    # Setup fonts for text display on the main menu
-    title_font = pygame.font.SysFont('times new roman', 48)  # main title
-    message_font = pygame.font.SysFont('times new roman', 36)  # sub-message
-
-    # Render the title and instruction text with anti-aliasing enabled
-    title_text = title_font.render('Arcade Games Collection', True, COLORS['green'])  # Title in green
-    message_text = message_font.render('Minesweeper', True, COLORS['red'])  # Message text in red
-
-    # Define button using a centralized x coordinate and staggered y coordinates
-    start_btn = Button(WINDOW_WIDTH // 2, 350, 'Start Game')
-
-    while True:  # Control variable for the main menu loop
-        # Draw the titles on the window at calculated positions to center them
-        game_window.blit(title_text, (WINDOW_WIDTH // 2 - title_text.get_width() // 2, 20))
-        game_window.blit(message_text, (WINDOW_WIDTH // 2 - message_text.get_width() // 2, 80))
-
-        # Draw button on the start game menu screen
-        start_btn.draw(game_window, COLORS['white'])
-
-        # Event handling loop to process user inputs
-        for event in pygame.event.get():
-            pos = pygame.mouse.get_pos()
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if start_btn.is_over(pos):
-                    return  # Proceed to game if button is clicked
-
-
-        pygame.display.update()  # Refresh the display
-        clock.tick(60)  # Maintain 60 frames per second
 
 # Define game_loop function
 def game_loop():
@@ -202,7 +163,6 @@ def game_loop():
 # Define main
 def run_game_minesweeper():
     print("Starting Minesweeper Game...")
-    start_game_menu()  # Show the main menu
     game_loop()  # Start the game loop after exiting the menu
 
 # Start main
