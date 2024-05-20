@@ -14,8 +14,8 @@ pygame.display.set_caption("Hangman Game!")
 
 # Fonts and Colors
 LETTER_FONT = pygame.font.SysFont('times new roman', 30)
-WORD_FONT = pygame.font.SysFont('times new roman', 60)
-TITLE_FONT = pygame.font.SysFont('times new roman', 70)
+WORD_FONT = pygame.font.SysFont('times new roman', 36)
+TITLE_FONT = pygame.font.SysFont('times new roman', 36)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
