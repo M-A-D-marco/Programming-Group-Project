@@ -1,12 +1,11 @@
-# Memory
 import random
 import pygame
 import sys
 from pygame.locals import *
 
 FPS = 30
-WINDOWWIDTH = 800
-WINDOWHEIGHT = 600
+WINDOWWIDTH = 640
+WINDOWHEIGHT = 480
 REVEALSPEED = 8
 BOXSIZE = 40
 GAPSIZE = 10
@@ -31,6 +30,7 @@ BGCOLOR = BLACK
 LIGHTBGCOLOR = GRAY
 BOXCOLOR = WHITE
 HIGHLIGHTCOLOR = BLUE
+
 
 # Themes
 themes = {
@@ -63,7 +63,6 @@ def drawBoard(board, revealed):
             else:
                 letter, color = getLetterAndColor(board, boxx, boxy)
                 drawIcon(letter, color, boxx, boxy)
-
 def getRandomizedBoard():
     icons = [(letter, color) for color in ALLCOLORS for letter in ALLLETTERS]
     random.shuffle(icons)
@@ -85,7 +84,7 @@ def getLetterAndColor(board, boxx, boxy):
 def drawIcon(letter, color, boxx, boxy):
     half = BOXSIZE // 2
     left, top = leftTopCoordsOfBox(boxx, boxy)
-    font = pygame.font.Font('times new roman', 20)
+    font = pygame.font.Font('freesansbold.ttf', 20)
     text = font.render(letter, True, color, BGCOLOR)
     textRect = text.get_rect()
     textRect.center = (left + half, top + half)
@@ -110,8 +109,8 @@ def gameOverAnimation():
     textRect = text.get_rect()
     textRect.center = (WINDOWWIDTH // 2, WINDOWHEIGHT // 2)
     DISPLAYSURF.blit(text, textRect)
-    pygame.DISPLAYSURF.update()
-    DISPLAYSURF.fill(BGCOLOR)  # Clear the screen
+    pygame.display.update()
+    pygame.time.wait(2000)
 
 def generateRevealedBoxesData(val):
     return [[val] * BOARDHEIGHT for _ in range(BOARDWIDTH)]
