@@ -120,7 +120,8 @@ def game_loop():
     level = 1
     speed = INITIAL_SNAKE_SPEED
     game_over = False
-    while True:
+    running = True
+    while running:
         if not game_over:
             game_window.fill(COLORS['black'])
 
@@ -182,8 +183,9 @@ def game_loop():
 
             pygame.display.update()
             pygame.time.wait(3000)
-            break
-# Define run_game_snake
+            running = False
+
+# Define run_game_[game] for arcade interface.
 def run_game_snake():
     print("Starting Snake Game...")
     game_loop()  # Start the Game

@@ -188,7 +188,7 @@ def main():
         if run:
             draw("")
 
-# Define run_game_hangman
+# Define run_game_[game] for arcade interface.
 def run_game_hangman():
     print("Starting Hangman Game...")
     main()  # Start the Game

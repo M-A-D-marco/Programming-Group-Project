@@ -50,6 +50,7 @@ class Button:
     # Method to draw the button on a given surface
     def draw(self, win, outline=None):
         # If an outline is specified, draw it around the button
+        # `win` parameter represents surface to draw on for more flexibility, code reusability, control and clarity
         if outline:
             pygame.draw.rect(win, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4), 0)
         # Draw the button's main rectangle
@@ -92,7 +93,7 @@ def main_menu():
 
     # Setup fonts for text display on the main menu
     title_font = pygame.font.SysFont('times new roman', 48)  # main title
-    message_font = pygame.font.SysFont('times new roman', 36)  # sub-messages or instructions
+    message_font = font  # sub-messages or instructions
 
     # Render the title and instruction text with anti-aliasing enabled
     title_text = title_font.render('Arcade Games Collection', True, COLORS['green'])  # Title in green
@@ -169,7 +170,7 @@ def game_over():
 
     # Set up title and message
     title_font = pygame.font.SysFont('times new roman', 48)  # main title
-    message_font = pygame.font.SysFont('times new roman', 36)  # secondary messages
+    message_font = font  # secondary messages
 
     # Render text with anti-aliasing for smoother text
     title_text = title_font.render('Arcade Games Collection', True, COLORS['green'])

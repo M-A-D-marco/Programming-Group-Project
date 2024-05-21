@@ -332,7 +332,7 @@ def selectThemeMenu():
                         selectTheme(theme)
                         return
 
-# Define run_game_memory
+# Define run_game_[game] for arcade interface.
 def run_game_memory():
     print("Starting Memory Game...")
     main()  # Start the Game
