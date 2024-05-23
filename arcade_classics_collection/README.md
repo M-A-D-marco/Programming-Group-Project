@@ -34,14 +34,14 @@ This project was inspired by the fond memories we have of playing these games du
 
 pip install pygame
 
-4. Download the Code: Download or clone the repository containing the Arcade Classics Collection and their corresponding game folder.
+3. Download the Code: Download or clone the repository containing the Arcade Classics Collection and their corresponding game folder.
 
 
-5.	Navigate in your terminal to the Project Directory and use this command to change directories.
+4.	Navigate in your terminal to the Project Directory and use this command to change directories.
 
 cd //"YOURPATH"/arcade_classics_collection
 
-7.	Run the Code "arcade_classics_collection.py" to start the game collection
+5.	Run the Code "arcade_classics_collection.py" to start the game collection
 
 python3 arcade_classics_collection.py
 
