@@ -39,11 +39,11 @@ pip install pygame
 
 5.	Navigate in your terminal to the Project Directory and use this command to change directories.
 
-cd //"<YOURPATH>"/arcade_classics_collection
+cd //"YOURPATH"/arcade_classics_collection
 
 7.	Run the Code "arcade_classics_collection.py" to start the game collection
 
-python3 "<YourPythonVersion>" arcade_classics_collection.py
+python3 "YourPythonVersion" arcade_classics_collection.py
 
 6. Enjoy the Games: The main menu will appear with options to play Hangman, Snake, Minesweeper, or Memory Puzzle. Click on the game you want to play and start enjoying!
 Controls
