@@ -39,7 +39,7 @@ pip install pygame
 
 5.	Navigate in your terminal to the Project Directory and use this command to change directories.
 
-cd //"<YOURPATH>"/arcade_classics_collection
+cd //"YOURPATH"/arcade_classics_collection
 
 7.	Run the Code "arcade_classics_collection.py" to start the game collection
 
